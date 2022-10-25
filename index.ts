@@ -1,8 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 const product: { id: number; name: string; marca: string }[] = [
   { name: "hola", marca: "chau", id: 1 },
@@ -33,7 +35,10 @@ app.put("/product", (req, res) => {
 });
 
 app.delete("/product", (req, res) => {
+  const { name, marca, id } = req.body;
+  const index = product.findIndex((product) => product.id === id);
+  if (index > -1) return product.splice(index, 1);
   res.status(200).json(product);
 });
 
-app.listen(3000);
+app.listen(3001);
