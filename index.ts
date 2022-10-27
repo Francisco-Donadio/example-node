@@ -28,9 +28,10 @@ app.post("/product", (req, res) => {
   }
 });
 
-app.put("/product", (req, res) => {
-  const { name, brand, id, price } = req.body;
-  const index = product.findIndex((product) => product.id === id);
+app.put("/product/:id", (req, res) => {
+  const id = req.params.id;
+  const { name, brand, price } = req.body;
+  const index = product.findIndex((product) => product.id === Number(id));
   if (index === -1)
     return res.status(400).json({ message: "no se encontro el producto" });
   product[index] = { ...product[index], name, brand, price };
